@@ -5,6 +5,10 @@ import java.io.IOException;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+/* 
+ * 
+ */
 public class Timetable {
 	@JsonProperty
 	private String[][] subjects;
@@ -36,11 +40,26 @@ public class Timetable {
 		}
 	}
 
+	public String[][] getSubjects() {
+		return subjects;
+	}
+
 	public String[] getSubjectsForDay(int weekday) {
 		return subjects[weekday];
 	}
 
+	public void setSubjects(String[][] subjects) {
+		if (subjects.length != 5) {
+			throw new IllegalArgumentException();
+		}
+		this.subjects = subjects;
+	}
+
 	public void changeSubjectsForDay(int weekday, String[] subjects) {
 		this.subjects[weekday] = subjects;
+	}
+
+	public void changeSpezificSubjectForDay(int weekday, int position, String subject) {
+		this.subjects[weekday][position] = subject;
 	}
 }
