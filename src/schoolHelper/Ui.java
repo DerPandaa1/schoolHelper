@@ -7,6 +7,7 @@ import javax.swing.*;
 
 public class Ui implements ActionListener {
     String[] weekdays = { "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag" };
+    String [] times = {"7:30","8:15","8:15","9:00","9:20","10:05","10:05","10:50","11:10","11:55","11:55","12:40","13:00","13:45","13:45","14:30"};
     JFrame frame = new JFrame("StundenPlan");
     JPanel mainPanel;
     JPanel leftPanel;
@@ -49,17 +50,21 @@ public class Ui implements ActionListener {
         bottomPanel.add(saveButton, BorderLayout.NORTH);
 
         timeTable = new JTextField[8][3];
+        int timeIndex = 0;
         for (int row = 0; row < 8; row++) {
             for (int column = 0; column < 3; column++) {
                 if (column == 1) {
                     timeTable[row][column] = new JTextField("bis");
                     timeTable[row][column].setEditable(false);
                 } else {
-                    timeTable[row][column] = new JTextField();
+                    timeTable[row][column] = new JTextField(times[timeIndex]);
+         timeIndex ++;
+                    
                 }
                 leftPanel.add(timeTable[row][column]);
             }
         }
+        
         subjectTable = new JTextField[8];
         for (int i = 0; i < 8; i++) {
             subjectTable[i] = new JTextField();
@@ -91,7 +96,7 @@ public class Ui implements ActionListener {
             timetable.changeSubjectsForDay(weekday,subjects);
             Timetable.writeToFile(timetable);
         }else if(e.getSource() == weekdayBox){
-            timetable.getSubjectsForDay(weekdayBox.getSelectedIndex());
+            carry = timetable.getSubjectsForDay(weekdayBox.getSelectedIndex());
             for (int i = 0; i < carry.length; i++) {
                 subjectTable[i].setText(carry[i]);
             }

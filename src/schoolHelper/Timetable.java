@@ -1,8 +1,6 @@
 package schoolHelper;
-
 import java.io.File;
 import java.io.IOException;
-
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
