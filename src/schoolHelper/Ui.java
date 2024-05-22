@@ -17,6 +17,8 @@ public class Ui implements ActionListener {
     JComboBox<?> weekdayBox = new JComboBox<Object>(weekdays);
     JTextField[][] timeTable;
     JTextField[] subjectTable;
+    String[] carry;
+    private Timetable timetable;
 
     public void showWindow() {
         mainPanel = new JPanel();
@@ -68,7 +70,11 @@ public class Ui implements ActionListener {
 
         saveButton.addActionListener(this);
         weekdayBox.addActionListener(this);
-
+        timetable = Timetable.readFromFile();
+        carry = timetable.getSubjectsForDay(0);
+        for (int i = 0; i < carry.length; i++) {
+            subjectTable[i].setText(carry[i]);
+        }
         frame.setVisible(true);
 
 
@@ -76,16 +82,19 @@ public class Ui implements ActionListener {
 
     
     public void actionPerformed(ActionEvent e) {
-        Timetable timetable = new Timetable();
         int weekday = weekdayBox.getSelectedIndex();
         String[] subjects = new String[8];
         if(e.getSource() == saveButton){
             for (int i = 0; i < 8; i++) {
-                subjects[i] = subjectTable[i].toString();
+                subjects[i] = subjectTable[i].getText();
             }
             timetable.changeSubjectsForDay(weekday,subjects);
+            Timetable.writeToFile(timetable);
         }else if(e.getSource() == weekdayBox){
             timetable.getSubjectsForDay(weekdayBox.getSelectedIndex());
+            for (int i = 0; i < carry.length; i++) {
+                subjectTable[i].setText(carry[i]);
+            }
         }
 
           
