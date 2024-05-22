@@ -13,19 +13,21 @@ public class Timetable {
 	@JsonProperty
 	private String[][] subjects;
 
+	private static File jsonFile = new File(
+			String.join(File.separator, System.getProperty("user.home"), ".config", "schoolhelper", "Timetable.json"));
+
 	public static Timetable readFromFile() {
 		final ClassLoader loader = Timetable.class.getClassLoader();
 		ObjectMapper objectMapper = new ObjectMapper();
 		try {
-			Timetable result = objectMapper.readValue(new File("~/.config/schoolHelper/TimeTable.json"),
-					Timetable.class);
+			Timetable result = objectMapper.readValue(jsonFile, Timetable.class);
 			if (result.subjects.length == 5) {
 				return result;
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return new Timetable();
 	}
 
 	public static void writeToFile(Timetable timetable) {
@@ -34,12 +36,15 @@ public class Timetable {
 		}
 		ObjectMapper objectMapper = new ObjectMapper();
 		try {
-			File jsonFile = new File("~/.config/schoolhelper/TimeTable.json");
 			jsonFile.getParentFile().mkdirs();
 			objectMapper.writeValue(jsonFile, timetable);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public Timetable() {
+		subjects = new String[5][8];
 	}
 
 	public String[][] getSubjects() {
