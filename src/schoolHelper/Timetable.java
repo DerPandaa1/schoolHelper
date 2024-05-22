@@ -3,6 +3,7 @@ package schoolHelper;
 import java.io.File;
 import java.io.IOException;
 
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -13,10 +14,13 @@ public class Timetable {
 	@JsonProperty
 	private String[][] subjects;
 
+	private static File jsonFile = new File(
+			String.join(File.separator, System.getProperty("user.home"), ".config", "schoolhelper", "Timetable.json"));
 	
 	public static Timetable readFromFile() {
 		final ClassLoader loader = Timetable.class.getClassLoader();
 		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.setSerializationInclusion(Include.NON_NULL);
 		try {
 			Timetable result = objectMapper.readValue(jsonFile, Timetable.class);
 			if (result.subjects.length == 5) {
@@ -27,8 +31,6 @@ public class Timetable {
 		}
 		return new Timetable();
 	}
-	private static File jsonFile = new File(
-			String.join(File.separator, System.getProperty("user.home"), ".config", "schoolhelper", "Timetable.json"));
 
 	public static void writeToFile(Timetable timetable) {
 		if (timetable.subjects.length != 5) {
@@ -45,6 +47,11 @@ public class Timetable {
 
 	public Timetable() {
 		subjects = new String[5][8];
+		for (String[] arr : subjects) {
+			for (String s : arr) {
+				s = "";
+			}
+		}
 	}
 
 	public String[][] getSubjects() {
