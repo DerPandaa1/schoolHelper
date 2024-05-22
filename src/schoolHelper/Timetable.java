@@ -17,7 +17,8 @@ public class Timetable {
 		final ClassLoader loader = Timetable.class.getClassLoader();
 		ObjectMapper objectMapper = new ObjectMapper();
 		try {
-			Timetable result = objectMapper.readValue(loader.getResource("Timetable.json"), Timetable.class);
+			Timetable result = objectMapper.readValue(new File("~/.config/schoolHelper/TimeTable.json"),
+					Timetable.class);
 			if (result.subjects.length == 5) {
 				return result;
 			}
@@ -34,7 +35,8 @@ public class Timetable {
 		final ClassLoader loader = Timetable.class.getClassLoader();
 		ObjectMapper objectMapper = new ObjectMapper();
 		try {
-			objectMapper.writeValue(new File(loader.getResource("Timetable.json").getAuthority()), timetable);
+			File jsonFile = new File("~/.config/schoolhelper/TimeTable.json");
+			objectMapper.writeValue(jsonFile, timetable);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
