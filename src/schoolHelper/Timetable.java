@@ -13,9 +13,7 @@ public class Timetable {
 	@JsonProperty
 	private String[][] subjects;
 
-	private static File jsonFile = new File(
-			String.join(File.separator, System.getProperty("user.home"), ".config", "schoolhelper", "Timetable.json"));
-
+	
 	public static Timetable readFromFile() {
 		final ClassLoader loader = Timetable.class.getClassLoader();
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -29,6 +27,8 @@ public class Timetable {
 		}
 		return new Timetable();
 	}
+	private static File jsonFile = new File(
+			String.join(File.separator, System.getProperty("user.home"), ".config", "schoolhelper", "Timetable.json"));
 
 	public static void writeToFile(Timetable timetable) {
 		if (timetable.subjects.length != 5) {
