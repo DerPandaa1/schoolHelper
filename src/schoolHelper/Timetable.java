@@ -32,10 +32,10 @@ public class Timetable {
 		if (timetable.subjects.length != 5) {
 			throw new IllegalArgumentException();
 		}
-		final ClassLoader loader = Timetable.class.getClassLoader();
 		ObjectMapper objectMapper = new ObjectMapper();
 		try {
 			File jsonFile = new File("~/.config/schoolhelper/TimeTable.json");
+			jsonFile.getParentFile().mkdirs();
 			objectMapper.writeValue(jsonFile, timetable);
 		} catch (IOException e) {
 			e.printStackTrace();

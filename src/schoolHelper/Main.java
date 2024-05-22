@@ -1,9 +1,12 @@
 package schoolHelper;
-import java.time.LocalDate;
 
 public class Main {
 
 	public static void main(String[] args) {
+		Timetable t = new Timetable();
+		String[][] s = new String[5][8];
+		t.setSubjects(s);
+		Timetable.writeToFile(t);
 		Ui ui = new Ui();
 		ui.showWindow();
 
